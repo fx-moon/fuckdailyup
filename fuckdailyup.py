@@ -81,7 +81,7 @@ def getsavedata(index={}):
         if index['info']['geo_api_info'] != '':
             fp = open('save.json', 'w', encoding='utf-8')
             json.dump(index, fp, ensure_ascii=False)
-    print('Using cached data')
+            print('Data saved')
     if not os.path.exists('save.json'):
         print('## Alert! No cached data!!!!')
         return 0
