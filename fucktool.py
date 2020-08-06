@@ -41,7 +41,7 @@ def interactivemode():
             s=input()
         except BaseException as e:
             print(e)
-            return
+            continue
         u,p='',''
         try:
             u,p=s.split(' ')
