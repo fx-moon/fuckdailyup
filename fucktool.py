@@ -40,6 +40,7 @@ def interactivemode():
         try:
             s=input()
         except BaseException as e:
+            print(e.what())
             return
         u,p='',''
         try:
