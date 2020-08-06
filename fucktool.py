@@ -31,10 +31,43 @@ def removeuser(username):
         return 1
     return 0
 
+def interactivemode():
+    while True:
+        print("usage:\n"\
+            "username passwd\n"\
+            "# YOU MUST ENSURE THAT YOU HAVE ALREADY FILLED THE DAILYUP CORRECTLY THIS TIME!")
+        s=''
+        try:
+            s=input()
+        except BaseException as e:
+            return
+        u,p='',''
+        try:
+            u,p=s.split(' ')
+        except BaseException as e:
+            print('format error')
+            continue
+        
+        print('username:{}\npasswd:{}'.format(u,p))
+        cookies=fuckdailyup.login(username=u,passwd=p)
+        if cookies==0:
+            print("passwd error")
+            continue
+        users={}
+        with open('users.json','r',encoding='utf-8') as fp:
+            users=json.load(fp)
+        users[u]=p
+        with open('users.json','w',encoding='utf-8') as fp:
+            json.dump(users,fp,ensure_ascii=False)
+        fuckmain.fuckmain(u,p)
+        
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-a','--add',nargs=2,type=str,help='add user')
     parser.add_argument('-d','--delete',type=str,help='delete user')
+    parser.add_argument('-i','--interactive',help='interactive mode',action="store_true")
     args=parser.parse_args()
     if args.add!=None:
         if adduser(args.add[0],args.add[1]) ==1:
@@ -46,3 +79,7 @@ if __name__ == '__main__':
             print('Success')
         else:
             print('Fail')
+    if args.interactive==True:
+        print('Interactive mode running')
+        interactivemode()
+        print('Interactive mode stoped')
