@@ -51,7 +51,6 @@ def interactivemode():
         print('username:{}\npasswd:{}'.format(u,p))
         cookies=fuckdailyup.login(username=u,passwd=p)
         if cookies==0:
-            print("passwd error")
             continue
         users={}
         with open('users.json','r',encoding='utf-8') as fp:
