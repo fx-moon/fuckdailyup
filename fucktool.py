@@ -61,7 +61,7 @@ def interactivemode():
         if not os.path.exists(u):
             os.mkdir(u)
         os.chdir(u)
-        if fuck.fuckmain(u,p):
+        if fuckmain.fuckmain(u,p):
             print('##### Success: {} with {}'.format(u,p))
         else:
             print('##### Failure: {} with {}'.format(u,p))
