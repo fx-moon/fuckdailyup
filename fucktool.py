@@ -58,7 +58,14 @@ def interactivemode():
         users[u]=p
         with open('users.json','w',encoding='utf-8') as fp:
             json.dump(users,fp,ensure_ascii=False)
-        fuckmain.fuckmain(u,p)
+        if not os.path.exists(u):
+            os.mkdir(u)
+        os.chdir(u)
+        if fuck.fuckmain(u,p):
+            print('##### Success: {} with {}'.format(u,p))
+        else:
+            print('##### Failure: {} with {}'.format(u,p))
+        os.chdir('..')
         
 
 
