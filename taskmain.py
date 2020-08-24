@@ -12,8 +12,13 @@ def taskmain():
         if not os.path.exists(user):
             os.mkdir(user)
         os.chdir(user)
-        if fuck.fuckmain(user,passwd):
-            print('##### Success: {} with {}'.format(user,passwd))
-        else:
-            print('##### Failure: {} with {}'.format(user,passwd))
-        os.chdir('..')
+        try:
+            if fuck.fuckmain(user,passwd):
+                print('##### Success: {} with {}'.format(user,passwd))
+            else:
+                print('##### Failure: {} with {}'.format(user,passwd))
+        except Exception as e:
+            print('##### Failure: {} with exception'.format(user,passwd))
+            print(e)
+        finally:
+            os.chdir('..')
