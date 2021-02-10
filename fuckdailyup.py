@@ -33,7 +33,7 @@ def login(username, passwd):
 
 
 def getindex(cookies):
-    url = "https://xxcapp.xidian.edu.cn/xisuncov/wap/open-report/index"
+    url = "https://xxcapp.xidian.edu.cn/ncov/wap/default/index"
 
     payload = {}
     headers = {
@@ -58,7 +58,7 @@ def getindex(cookies):
         return 0
 
 
-def getdataindex(payload=''):
+""" def getdataindex(payload=''):
     rdata = ['address', 'area', 'city', 'geo_api_info', 'province',
              'qtqk', 'sfcyglq', 'sfyzz', 'sfzx', 'tw', 'ymtys']
     if payload == '':
@@ -68,17 +68,19 @@ def getdataindex(payload=''):
     if dataindex != rdata:
         print("## Alert! Data index changed!!!!")
     return dataindex
+ """
 
 def getifsaved(index):
-    if index['info']['geo_api_info'] == '':
+    if index['info']["isConfirm"] == False:
         return False
     else:
         return True
 
+
 def getsavedata(index={}):
     savedata = {}
     if index != {}:
-        if index['info']['geo_api_info'] != '':
+        if index['oldInfo']['geo_api_info'] != '':
             fp = open('save.json', 'w', encoding='utf-8')
             json.dump(index, fp, ensure_ascii=False)
             print('Data saved')
@@ -88,18 +90,20 @@ def getsavedata(index={}):
     fp = open('save.json', 'r', encoding='utf-8')
     index = json.load(fp)
     data = index['info']
-    dataindex = getdataindex()
+    """ dataindex = getdataindex()
     for i in dataindex:
         if i in data:
             savedata[i] = data[i]
         else:
-            print("## Alert! Missing Data index!!!!")
+            print("## Alert! Missing Data index!!!!") """
+    savedata=data
+    savedata['geo_api_info' ]=index['oldInfo']['geo_api_info']
     return savedata
 
 
 def postsave(cookies, savedata):
-    url = "https://xxcapp.xidian.edu.cn/xisuncov/wap/open-report/save"
-    dataindex = getdataindex()
+    url = "https://xxcapp.xidian.edu.cn/ncov/wap/default/save"
+    # dataindex = getdataindex()
     headers = {
         'Accept': 'application/json, text/plain, */*',
         'X-Requested-With': 'XMLHttpRequest',
@@ -110,7 +114,8 @@ def postsave(cookies, savedata):
         'Sec-Fetch-Dest': 'empty'
     }
 
-    response = requests.request("POST", url, headers=headers, data=savedata, cookies=cookies)
+    response = requests.request(
+        "POST", url, headers=headers, data=savedata, cookies=cookies)
 
     if response.status_code == 200:
         print(response.json()['m'])

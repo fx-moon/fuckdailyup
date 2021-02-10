@@ -39,12 +39,12 @@ def interactivemode():
         s=''
         try:
             s=input()
-        except BaseException as e:
+        except BaseException:
             return
         u,p='',''
         try:
             u,p=s.split(' ')
-        except BaseException as e:
+        except BaseException:
             print('format error')
             continue
         

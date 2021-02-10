@@ -18,7 +18,7 @@ def taskmain():
             else:
                 print('##### Failure: {} with {}'.format(user,passwd))
         except Exception as e:
-            print('##### Failure: {} with exception'.format(user,passwd))
+            print('##### Failure: {} with {} exception'.format(user,passwd))
             print(e)
         finally:
             os.chdir('..')
