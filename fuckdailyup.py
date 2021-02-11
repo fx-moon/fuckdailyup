@@ -71,7 +71,7 @@ def getindex(cookies):
  """
 
 def getifsaved(index):
-    if index['info']["isConfirm"] == False:
+    if index['hasFlag'] == False:
         return False
     else:
         return True
@@ -80,7 +80,7 @@ def getifsaved(index):
 def getsavedata(index={}):
     savedata = {}
     if index != {}:
-        if index['oldInfo']['geo_api_info'] != '':
+        if index["hasFlag"] == True:
             fp = open('save.json', 'w', encoding='utf-8')
             json.dump(index, fp, ensure_ascii=False)
             print('Data saved')
@@ -97,7 +97,12 @@ def getsavedata(index={}):
         else:
             print("## Alert! Missing Data index!!!!") """
     savedata=data
+    savedata['address']=index['oldInfo']['address']
+    savedata['area']=index['oldInfo']['area']
+    savedata['city']=index['oldInfo']['city']
     savedata['geo_api_info' ]=index['oldInfo']['geo_api_info']
+    savedata['ismoved']=0
+    savedata['szgjcs']=''
     return savedata
 
 
